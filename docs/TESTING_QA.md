@@ -1,6 +1,6 @@
 # Testing and Release Gates
 
-Status: Vitest rules tests and the standard `lint`, `typecheck`, and production `build` checks are implemented. On 28 October 2026, `npm run verify` passed after fixing a malformed shift authorization expression, a report query for a nonexistent event field, and an incorrect fairness-test assertion. It ran lint, typecheck, 4 Vitest tests, and the production build. The unit suite covers factory/college thresholds, exact long-shift/rest boundaries, high-severity safety prompting, invalid inputs, and wage arithmetic. The standalone production server returned `200` for `/` and `/api/health`. Real database/RLS and browser end-to-end tests remain pending because no connected project or local database runtime is available. A successful build does not establish authorization correctness.
+Status: Vitest rules tests and the standard `lint`, `typecheck`, and production `build` checks are implemented. On 29 October 2026, a clean `npm ci --no-audit --no-fund` install succeeded, followed by a passing `npm run verify`: lint, typecheck, 4 Vitest tests, and the production build. The unit suite covers factory/college thresholds, exact long-shift/rest boundaries, high-severity safety prompting, invalid inputs, and wage arithmetic. The standalone production server returned `200` for `/` and `/api/health`. Real database/RLS and browser end-to-end tests remain pending because no connected project or local database runtime is available. A successful build does not establish authorization correctness.
 
 ## Phase 1 recorded checks
 

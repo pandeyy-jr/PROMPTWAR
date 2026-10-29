@@ -25,6 +25,7 @@ Static inspection found RLS enabled for every application-exposed table, no ordi
 | Check | Result | Evidence |
 |---|---|---|
 | `npm run verify` | Passed | Lint, TypeScript, 4 Vitest tests, and production build passed. |
+| Clean lockfile install | Passed | `npm ci --no-audit --no-fund` installed 404 packages, then `npm run verify` passed in that clean environment. |
 | Production dependency audit | Passed | `npm audit --omit=dev --json` reported 0 vulnerabilities. |
 | Supabase CLI availability | Passed | `npx --yes supabase --version` returned `2.122.0`. |
 | Supabase project access | Blocked | `supabase projects list` reported that an access token is not provided. |

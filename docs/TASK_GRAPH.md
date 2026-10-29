@@ -105,7 +105,7 @@ Phase 2 and Phase 3 can overlap only after shared types, membership model, and m
 | P5-01 | Security review and hardening | Reviewer + Implementation | Gate 4 | Static security review and production dependency audit complete; live RLS/session/rate-limit checks remain blocked | In progress |
 | P5-02 | Accessibility audit and fixes | Reviewer + Implementation | Gate 4 | Keyboard, focus, contrast, labels, live regions, mobile/reflow, reduced motion verified | Pending |
 | P5-03 | Full test layers | Implementation | Gate 4 | Unit, integration, real/local RLS, and critical E2E journeys pass or external block is explicit | Pending |
-| P5-04 | CI and dependency review | Implementation | P5-03 | CI runs lint/typecheck/test/build from lockfile | Implemented |
+| P5-04 | CI and dependency review | Implementation | P5-03 | CI runs lint/typecheck/test/build from lockfile; clean `npm ci` locally verified after lockfile repair | Implemented, awaiting remote CI |
 | P5-05 | Production build verification | Orchestrator | P5-01â€¦P5-04 | Local verification recorded; hosted integration remains blocked | In progress |
 | **G5** | **Gate 5 review** | Orchestrator | P5-05 | Evidence reviewed; continue into safe deployment preparation; external deploy remains gated | Pending |
 
