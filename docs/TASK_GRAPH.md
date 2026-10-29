@@ -1,6 +1,6 @@
 # FairShift Master Task Graph
 
-Status (28 October 2026): Phases 0–1 are verified. Local implementation for Phases 2–5 and deployment preparation is present. `npm run verify` passes after local fixes, and the production server returned `200` for `/` and `/api/health`. Supabase/RLS and end-to-end behavior are not verified; Cloud Run, public repository publication, LinkedIn, and submission remain incomplete. The workspace has no `.git` metadata. Hosted/external steps need account access and, for publication/submission, applicable explicit authorization.
+Status (29 October 2026): Phases 0–1 are verified. Local implementation for Phases 2–5 and deployment preparation is present. The public GitHub repository is verified on `main`. A static migration/security review resolved two least-privilege workflow defects with a forward-only migration. Supabase/RLS and end-to-end behavior are not verified; Cloud Run, LinkedIn, and submission remain incomplete. Hosted/external steps need Supabase and GCP account access.
 
 ## Status legend
 
@@ -83,7 +83,7 @@ Phase 2 and Phase 3 can overlap only after shared types, membership model, and m
 | P3-02 | Worker shift view | Implementation | P3-01 | Own shifts, rate, scheduled estimate and state | Implemented, DB unverified |
 | P3-03 | Attendance state machine | Implementation | P3-01 | Atomic check-in/out transitions reject duplicates and wrong worker | Implemented, DB unverified |
 | P3-04 | Wage rules and transparent calculation | Implementation | P3-01, P3-03 | Integer minor units, reproducible estimate; payroll/overtime not claimed | Implemented, unit tested |
-| P3-05 | Safety reporting and status history | Implementation | P3-01 | Reporter ownership, bounded input, append-only events, worker-visible status | Implemented, DB unverified |
+| P3-05 | Safety reporting and status history | Implementation | P3-01 | Reporter ownership, bounded input, append-only events, worker-visible status; severity grant added forward-only | Implemented, DB unverified |
 | P3-06 | Management review dashboards | Implementation | P3-03â€¦P3-05 | Site-scoped roster and report transitions with actor/time | Implemented, DB unverified |
 | P3-07 | Persistence and authorization integration tests | Implementation | P3-02â€¦P3-06 | Real journeys require unavailable Supabase/Postgres | Blocked |
 | **G3** | **Gate 3 review** | Orchestrator | P3-07 | Evidence reviewed; continue when offline acceptance passes and document external limits | Pending |
@@ -102,7 +102,7 @@ Phase 2 and Phase 3 can overlap only after shared types, membership model, and m
 
 | ID | Task | Owner | Depends on | Acceptance / verification | Status |
 |---|---|---|---|---|---|
-| P5-01 | Security review and hardening | Reviewer + Implementation | Gate 4 | CSP, rate limits, origin/CSRF checks, log redaction, dependency audit; high-risk issues fixed | Pending |
+| P5-01 | Security review and hardening | Reviewer + Implementation | Gate 4 | Static security review and production dependency audit complete; live RLS/session/rate-limit checks remain blocked | In progress |
 | P5-02 | Accessibility audit and fixes | Reviewer + Implementation | Gate 4 | Keyboard, focus, contrast, labels, live regions, mobile/reflow, reduced motion verified | Pending |
 | P5-03 | Full test layers | Implementation | Gate 4 | Unit, integration, real/local RLS, and critical E2E journeys pass or external block is explicit | Pending |
 | P5-04 | CI and dependency review | Implementation | P5-03 | CI runs lint/typecheck/test/build from lockfile | Implemented |
@@ -117,17 +117,17 @@ Phase 2 and Phase 3 can overlap only after shared types, membership model, and m
 | P6-02 | Deploy to Cloud Run | Orchestrator + user | P6-01, GCP access/approval | Live service URL; secrets least-privilege; HSTS/HTTPS; logs safe | Blocked |
 | P6-03 | Production Supabase setup | Orchestrator + user | P2-01, P6-02 | Migrations applied; redirect URLs match host; RLS verified in production-like data | Blocked |
 | P6-04 | Live smoke and critical journeys | Orchestrator | P6-02, P6-03 | Health, auth, worker and manager journeys verified at the real URL | Pending |
-| P6-05 | GitHub repository verification | Orchestrator + user | P6-04, explicit publishing authorization | Public clone URL ends `.git`; exactly one branch; initial size <10 MB; no secrets/artifacts | Blocked |
+| P6-05 | GitHub repository verification | Orchestrator + user | P6-04, explicit publishing authorization | Public clone URL ends `.git`; one remote `main` branch and 464,997-byte tree verified | Complete |
 | P6-06 | Demo, README, LinkedIn post | Orchestrator + user | P6-04, LinkedIn publication authorization | Truthful public post and reviewer-ready README/demo verified | Blocked |
 | P6-07 | Submission dashboard | User | P6-05, P6-06, explicit submission-attempt authorization | Final status inspected and recorded; no inference from local completion | Blocked |
 | **G6** | **Gate 6 review** | Orchestrator | P6-07 | All submission evidence verified; no submission attempt without explicit authorization | Pending |
 
 ## Critical path and current blockers
 
-1. **Supabase project access (P2-01):** live Auth/RLS verification needs a project URL, publishable key, redirect configuration, and local DB tooling or a hosted test project; offline code/migrations/tests proceed.
+1. **Supabase project access (P2-01):** live Auth/RLS verification needs a project URL, publishable key, redirect configuration, and local DB tooling or a hosted test project. The official CLI currently has no access token or linked project; see [Phase 2 report](PHASE_2_REPORT.md).
 2. **Cloud Run/GCP access (P6-02):** mandatory host; deployment cannot be claimed from a Dockerfile alone. Current environment lacks Docker and `gcloud`.
-3. **GitHub ownership/publication and LinkedIn authorization (P6-05, P6-06):** external actions requiring specific account access and explicit publishing authorization.
-4. **Git repository metadata absent:** no local branch, tracked-file review, history-size measurement, or clone URL can be verified from this workspace.
+3. **LinkedIn authorization (P6-06):** public project publication remains pending until live feature/deployment claims are verified.
+4. **Cloud Run/GCP tooling:** Docker and `gcloud` are unavailable in the current environment.
 
 ## AI-review readiness (project constraint)
 

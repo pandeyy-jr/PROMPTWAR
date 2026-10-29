@@ -14,7 +14,7 @@ Work proceeds through the six gates below. The user has authorized continuation 
 
 ## Gate 2 — Authentication and authorization
 
-**Local status (28 October 2026):** Authentication actions, session refresh, server-side role guards, identity/membership schema and RLS policies are implemented. Lint, typecheck, and production build pass. Hosted auth, anonymous/cross-worker RLS checks, and real user journeys remain unverified because no Supabase project or database test runtime is connected. See [task graph](TASK_GRAPH.md).
+**Local status (29 October 2026):** Authentication actions, session refresh, server-side role guards, identity/membership schema, and RLS policies are implemented. Static SQL review found no ordinary membership-write path or obvious self-promotion route. Hosted auth, anonymous/cross-worker RLS checks, and real user journeys remain unverified because no Supabase project or database test runtime is connected. See [Phase 2 report](PHASE_2_REPORT.md).
 
 **Deliverables:** real Supabase sign-in/sign-out, protected routes/server guards, profile provisioning, role-aware worker and management entry points, initial profile/org migrations and RLS policies.
 
@@ -24,7 +24,7 @@ Work proceeds through the six gates below. The user has authorized continuation 
 
 ## Gate 3 — Core workforce workflows and persistence
 
-**Local status (28 October 2026):** Shift creation/view, attendance transitions, scheduled wage estimates, safety reports/status history, and management review actions are implemented against the migrations. Lint, typecheck, and production build pass; persistence and authorization behavior remain unverified against PostgreSQL/Supabase. See [task graph](TASK_GRAPH.md).
+**Local status (29 October 2026):** Shift creation/view, attendance transitions, scheduled wage estimates, safety reports/status history, and management review actions are implemented against the migrations. A forward-only migration now grants safety severity insertion, and actions rely on database-owned `auth.uid()` defaults for reporter and creator fields. Persistence and authorization behavior remain unverified against PostgreSQL/Supabase. See [Phase 2 report](PHASE_2_REPORT.md).
 
 **Deliverables:** shift management/viewing, attendance check-in/out, explicit wage rules and transparent calculations, worker hazard reporting, management review/status history, persisted summaries.
 
@@ -44,7 +44,7 @@ Work proceeds through the six gates below. The user has authorized continuation 
 
 ## Gate 5 — Security, accessibility, and testing
 
-**Local status (28 October 2026):** CSP and security headers, input validation, CI workflow, accessible form/navigation patterns, and local lint/type/test/build checks are present. A local production-server smoke test returned `200` for `/` and `/api/health`. Formal keyboard/contrast/reflow review, database/RLS tests, and browser journeys remain incomplete. Gate 5 is not verified complete.
+**Local status (29 October 2026):** CSP and security headers, input validation, CI workflow, accessible form/navigation patterns, and local lint/type/test/build checks are present. `npm audit --omit=dev --json` reported zero production vulnerabilities. Formal keyboard/contrast/reflow review, database/RLS tests, and browser journeys remain incomplete. Gate 5 is not verified complete; see [Security review](SECURITY_REVIEW.md).
 
 **Deliverables:** hardening, keyboard/mobile/contrast review, meaningful unit/integration/RLS/end-to-end checks, resolved release-blocking defects, updated docs.
 

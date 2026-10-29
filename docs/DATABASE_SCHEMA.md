@@ -1,6 +1,6 @@
 # Database Schema Specification
 
-Status: three versioned SQL migrations are implemented under `supabase/migrations/`; none has been applied because no Supabase project or local database runtime is connected. This describes intended source schema, not a live database.
+Status: four versioned SQL migrations are implemented under `supabase/migrations/`; none has been applied because no Supabase project or local database runtime is connected. This describes intended source schema, not a live database.
 
 > The implementation uses an explicit `memberships` table (user, organization, optional manager site scope, role, active flag). Membership writes are intentionally unavailable to ordinary users and must be provisioned by a trusted operator.
 

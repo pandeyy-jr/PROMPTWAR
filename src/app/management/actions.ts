@@ -23,7 +23,7 @@ function localInZoneToIso(value: string, timeZone: string): string | null {
 }
 
 export async function createShiftAction(form: FormData) {
-  const { supabase, user, memberships } = await requireRole(["employer", "admin"]);
+  const { supabase, memberships } = await requireRole(["employer", "admin"]);
   const parsed = z.object({ siteId:z.string().uuid(), workerId:z.string().uuid(), title:z.string().trim().min(1).max(120), startsAt:z.string(), endsAt:z.string(), timeZone:z.string().min(1).max(80), rate:z.coerce.number().int().positive().max(100000000), currency:z.enum(["INR","USD","EUR","GBP","CAD","AUD","SGD","JPY"]) }).safeParse({siteId:form.get("siteId"),workerId:form.get("workerId"),title:form.get("title"),startsAt:form.get("startsAt"),endsAt:form.get("endsAt"),timeZone:form.get("timeZone"),rate:form.get("rateMinor"),currency:form.get("currency")});
   if (!parsed.success) redirect("/management?error=Check%20shift%20details");
   const startsAt=localInZoneToIso(parsed.data.startsAt,parsed.data.timeZone), endsAt=localInZoneToIso(parsed.data.endsAt,parsed.data.timeZone);
@@ -37,7 +37,7 @@ export async function createShiftAction(form: FormData) {
   );
   if (!site||!authorized) redirect("/management?error=Site%20access%20not%20found");
   if(site.timezone!==parsed.data.timeZone) redirect("/management?error=Choose%20the%20selected%20site%20time%20zone");
-  const { error } = await supabase.from("shifts").insert({ organization_id:site.organization_id,site_id:parsed.data.siteId,worker_id:parsed.data.workerId,title:parsed.data.title,starts_at:startsAt,ends_at:endsAt,hourly_rate_minor:parsed.data.rate,currency:parsed.data.currency,created_by:user.id });
+  const { error } = await supabase.from("shifts").insert({ organization_id:site.organization_id,site_id:parsed.data.siteId,worker_id:parsed.data.workerId,title:parsed.data.title,starts_at:startsAt,ends_at:endsAt,hourly_rate_minor:parsed.data.rate,currency:parsed.data.currency });
   if (error) redirect("/management?error=Shift%20could%20not%20be%20created");
   revalidatePath("/management");
 }

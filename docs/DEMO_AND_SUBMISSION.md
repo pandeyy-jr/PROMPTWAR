@@ -1,6 +1,6 @@
 # Demo and Hackathon Submission
 
-Status: preparation checklist only. The Phase 1 foundation does not satisfy any product/repository/deployment submission checkbox yet. No public repository URL, live Cloud Run URL, LinkedIn post, or submission dashboard status has been supplied or verified.
+Status: the local implementation and public GitHub repository are verified, but no live Supabase integration, Cloud Run URL, LinkedIn post, or submission dashboard status has been verified. See [submission readiness](SUBMISSION_READINESS.md) for the current evidence.
 
 ## End-to-end demonstration plan
 

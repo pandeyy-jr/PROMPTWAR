@@ -16,13 +16,13 @@ export async function attendanceAction(data: FormData) {
 }
 
 export async function safetyReportAction(data: FormData) {
-  const { supabase, user, memberships } = await requireRole(["worker"]);
+  const { supabase, memberships } = await requireRole(["worker"]);
   const parsed = reportSchema.safeParse({ siteId: data.get("siteId"), category: data.get("category"), severity: data.get("severity"), description: data.get("description") });
   if (!parsed.success) redirect("/worker?error=Check%20the%20report%20fields");
   const membership = memberships.find((item) => item.role === "worker" && item.site_id === parsed.data.siteId);
   if (!membership) redirect("/worker?error=Workplace%20access%20not%20found");
   const { error } = await supabase.from("safety_reports").insert({
-    organization_id: membership.organization_id, site_id: parsed.data.siteId, reporter_id: user.id,
+    organization_id: membership.organization_id, site_id: parsed.data.siteId,
     category: parsed.data.category, severity: parsed.data.severity, description: parsed.data.description,
   });
   if (error) redirect("/worker?error=Report%20could%20not%20be%20submitted");
